@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
-import os
 
 nltk.download('vader_lexicon')
 app = Flask(__name__)
@@ -29,8 +28,3 @@ def analyze_sentiment():
         'normalized_score': normalized_score,
         'sentiment': sentiment
     })
-
-if __name__ == '__main__':
-    import os
-    port = int(os.environ.get('PORT', 5000))  # Use PORT from Render or 5000 locally
-    app.run(host='0.0.0.0', port=port)
