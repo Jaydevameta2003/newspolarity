@@ -30,4 +30,4 @@ def analyze_sentiment():
             'sentiment': sentiment
         })
     except Exception as e:
-        return jsonify({'error': str(e)}), 500 
+        return jsonify({'error': str(e)}), 500
