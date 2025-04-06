@@ -1,15 +1,9 @@
 from flask import Flask, request, jsonify
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from dotenv import load_dotenv
 import nltk
 import os
 
-# Load environment variables from .env file
-load_dotenv()
-
-# Download VADER lexicon if not already downloaded
 nltk.download('vader_lexicon')
-
 app = Flask(__name__)
 analyzer = SentimentIntensityAnalyzer()
 
@@ -37,5 +31,5 @@ def analyze_sentiment():
     })
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # Use PORT from .env or default 5000
+    port = int(os.environ.get('PORT', 5000))  # Use PORT from Render or 5000 locally
     app.run(host='0.0.0.0', port=port)
