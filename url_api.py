@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import requests
 from bs4 import BeautifulSoup
 from textblob import TextBlob
+import os
 
 app = Flask(__name__)
 
@@ -40,6 +41,7 @@ def analyze_url_sentiment():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# Run the app
+# Run the app (compatible with Render or local)
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    port = int(os.environ.get('PORT', 5001))
+    app.run(host='0.0.0.0', port=port)
