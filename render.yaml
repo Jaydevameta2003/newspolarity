@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: newspolarity
+    env: python
+    plan: free
+    buildCommand: "python nltk_download.py"
+    startCommand: "gunicorn url_api:app"

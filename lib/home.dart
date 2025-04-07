@@ -1,64 +1,115 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:newspolarity/input.dart';
+import 'package:newspolarity/link.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Homepage extends StatefulWidget {
+  const Homepage({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Homepage> createState() => _HomepageState();
 }
 
-class _HomeState extends State<Home> {
-  String sentiment = "";
-  TextEditingController controller = TextEditingController();
-
-  Future<void> fetchSentiment(String query) async {
-    final url = Uri.parse('http://127.0.0.1:5000/api?Query=${Uri.encodeComponent(query)}');
-
-    try {
-      final response = await http.get(url);
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        setState(() {
-          sentiment = data['sentiment'];
-        });
-      } else {
-        setState(() {
-          sentiment = 'Error: ${response.statusCode}';
-        });
-      }
-    } catch (e) {
-      setState(() {
-        sentiment = 'Error: Could not connect to API';
-      });
-    }
-  }
-
+class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("News Sentiment Analyzer")),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: controller,
-              decoration: const InputDecoration(
-                hintText: "Enter news headline...",
-                border: OutlineInputBorder(),
-              ),
-              onSubmitted: fetchSentiment,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            transform: GradientRotation(3.14 / 3),
+            colors: [
+              Colors.orangeAccent, // Light orange (Swiggy-style top)
+              Color(0xFFFFF3E0), // Soft cream-ish bottom
+              Colors.white,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: buildCustomContainer(
+                        title: "Find by news content",
+                        color: Colors.white,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const InputPage(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: buildCustomContainer(
+                        title: "Find by news link",
+                        color: Colors.white,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LinkPage(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            Text(
-              "Sentiment: $sentiment",
-              style: const TextStyle(fontSize: 20),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
+}
+
+Widget buildCustomContainer({
+  required String title,
+  required Color color,
+  VoidCallback? onTap,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Container(
+        height: 150,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 6,
+              offset: const Offset(0, 4),
+            )
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

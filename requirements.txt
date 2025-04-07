@@ -1,4 +1,7 @@
 Flask
 nltk
+textblob
+beautifulsoup4
+requests
 python-dotenv
 gunicorn

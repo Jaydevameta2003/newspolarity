@@ -1,0 +1,2 @@
+C:/Users/HP/StudioProjects/newspolarity/android/app/.cxx/RelWithDebInfo/u42344k4/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/HP/StudioProjects/newspolarity/android/app/.cxx/RelWithDebInfo/u42344k4/armeabi-v7a/CMakeFiles/rebuild_cache.dir
